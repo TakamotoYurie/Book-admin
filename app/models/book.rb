@@ -11,6 +11,7 @@ class Book < ApplicationRecord
       book.errors[:name] << "I don't like exersise."
     end
   end
+
   #gsupは文字列の置き換え
   before_validation do
     self.name = self.name.gsub(/Cat/) do |matched|
@@ -18,8 +19,8 @@ class Book < ApplicationRecord
     end
   end
 
-  before_validation :add_lovely_to_cat
 =begin
+  before_validation :add_lovely_to_cat
   Cat→lovely Catにするコールバックのもう一つの書き方
   def add_lovely_to_cat
     self.name = self.name.gsub(/Cat/) do |matched|
@@ -30,6 +31,15 @@ class Book < ApplicationRecord
 
   after_destroy do
     Rails.logger.info "Book is deleted: #{self.attributes}"
+  end
+
+  after_destroy :if => :high_price? do
+    Rails.logger.warn "Book with high price is deleted: #{self.attributes}"
+    Rails.logger.warn "Please check!!"
+  end
+
+  def high_price?
+    price >= 5000
   end
 
   scope :costly, -> { where("price > ?", 3000) }
