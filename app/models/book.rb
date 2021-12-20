@@ -11,6 +11,22 @@ class Book < ApplicationRecord
       book.errors[:name] << "I don't like exersise."
     end
   end
+  #gsupは文字列の置き換え
+  before_validation do
+    self.name = self.name.gsub(/Cat/) do |matched|
+      "lovely #{matched}"
+    end
+  end
+
+  before_validation :add_lovely_to_cat
+=begin
+  Cat→lovely Catにするコールバックのもう一つの書き方
+  def add_lovely_to_cat
+    self.name = self.name.gsub(/Cat/) do |matched|
+      "lovely #{matched}"
+    end
+  end
+=end
 
   scope :costly, -> { where("price > ?", 3000) }
   scope :written_about, -> { where("name like ?", "%#{theme}%") }
