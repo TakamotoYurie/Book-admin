@@ -28,6 +28,10 @@ class Book < ApplicationRecord
   end
 =end
 
+  after_destroy do
+    Rails.logger.info "Book is deleted: #{self.attributes}"
+  end
+
   scope :costly, -> { where("price > ?", 3000) }
   scope :written_about, -> { where("name like ?", "%#{theme}%") }
 end
