@@ -4,15 +4,13 @@ class BooksController < ApplicationController
   around_action :action_logger, only: [:destroy]
 
 
-  before_action do
-    redirect_to access_denied_path if params[:token].blank?
-  end
+  #before_action do
+    #redirect_to access_denied_path if params[:token].blank?
+  #end
 
   def show
-    respond_to do |format|
-      format.html
-      format.json
-    end
+    # 省略可能
+    render :show
   end
 
   def destroy
