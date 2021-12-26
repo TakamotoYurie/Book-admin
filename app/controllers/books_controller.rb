@@ -8,9 +8,21 @@ class BooksController < ApplicationController
     #redirect_to access_denied_path if params[:token].blank?
   #end
 
+  def index
+    @books = Book.all
+    respond_to do |format|
+      format.html
+      format.json
+    end
+  end
+
   def show
     # 省略可能
-    render :show
+    # render :show
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def destroy
